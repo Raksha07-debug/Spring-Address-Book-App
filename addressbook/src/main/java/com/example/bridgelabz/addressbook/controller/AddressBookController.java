@@ -26,17 +26,18 @@ public class AddressBookController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addContact(@RequestBody String contact) {
-        return ResponseEntity.ok("Contact added: " + contact);
+    public ResponseEntity<AddressBook> addContact(@RequestBody AddressBook contact) {
+        return ResponseEntity.ok(addressBookService.addContact(contact));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateContact(@PathVariable int id, @RequestBody String contact) {
-        return ResponseEntity.ok("Contact updated with ID: " + id);
+    public ResponseEntity<AddressBook> updateContact(@PathVariable int id, @RequestBody AddressBook contact) {
+        return ResponseEntity.ok(addressBookService.updateContact(id, contact));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteContact(@PathVariable int id) {
-        return ResponseEntity.ok("Contact deleted with ID: " + id);
+        boolean isDeleted = addressBookService.deleteContact(id);
+        return isDeleted ? ResponseEntity.ok("Deleted Successfully") : ResponseEntity.notFound().build();
     }
 }

@@ -13,8 +13,28 @@ public class AddressBookService {
     public List<AddressBook> getAllContacts() {
         return addressBookList;
     }
+    private int idCounter = 1;
 
     public AddressBook getContactById(int id) {
         return addressBookList.stream().filter(contact -> contact.getId() == id).findFirst().orElse(null);
+    }
+    public AddressBook addContact(AddressBook contact) {
+        contact.setId(idCounter++);
+        addressBookList.add(contact);
+        return contact;
+    }
+
+    public AddressBook updateContact(int id, AddressBook updatedContact) {
+        for (int i = 0; i < addressBookList.size(); i++) {
+            if (addressBookList.get(i).getId() == id) {
+                addressBookList.set(i, updatedContact);
+                return updatedContact;
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteContact(int id) {
+        return addressBookList.removeIf(contact -> contact.getId() == id);
     }
 }
